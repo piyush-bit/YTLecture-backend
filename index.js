@@ -19,7 +19,10 @@ import Tags from './Models/Tags.js';
 dotenv.config();
 const port = process.env.PORT;
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: process.env.PORT,
+    credentials: true,
+  }));
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(cookieParser());
 dbConnect();
