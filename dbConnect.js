@@ -2,8 +2,10 @@ import mongoose from 'mongoose'
 
 const dbConnect = () => {
     const connectionParams = {useNewUrlParser : true}
+    // console.log(process.env.DB);
+    
 
-    mongoose.connect(process.env.DB,connectionParams)
+    mongoose.connect(process.env.DB||'mongodb+srv://user:pass@cluster0.jzsdark.mongodb.net/',connectionParams)
     mongoose.connection.on("connected",()=>{
         console.log("Connected on database sucessfully")
     })

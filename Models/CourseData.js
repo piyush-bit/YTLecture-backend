@@ -1,18 +1,15 @@
 import mongoose from "mongoose"
 
 const courseDataSchema = new mongoose.Schema({
-    _id : { type : String, required : true},
-    Playlist_link : {type : String },
-    Playlist_img : {type : String},
-    title: { type: String, required: true }, 
     data : [
         {
-            title : String ,
-            content : [
+            subtopic : String ,
+            duration : String,
+            data : [
                 {
                     title : String,
                     description : String,
-                    embed_link : String,
+                    embedLink : String,
                     duration : String
                 }
             ]
