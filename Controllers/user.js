@@ -2,6 +2,11 @@ import Users from "../Models/Users.js"
 import { createError } from "../error.js";
 
 
+export const user = (req, res , next)=>{
+  res.json(req.user);
+  next();
+}
+
 export const update = async (req, res , next) => {
     if (req.params.id === req.user.id){
         try {
