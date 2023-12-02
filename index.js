@@ -20,7 +20,7 @@ dotenv.config();
 const port = process.env.PORT;
 const app = express();
 app.use(cors({
-    origin: process.env.PORT,
+    origin: process.env.CORS_ADD,
     credentials: true,
   }));
 app.use(bodyParser.json({ limit: '10mb' }));
