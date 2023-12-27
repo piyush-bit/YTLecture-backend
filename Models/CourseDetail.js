@@ -16,7 +16,7 @@ const courseDetailSchema = new mongoose.Schema({
   language : { type : String , required : true},
   review: { type:Number , default: 5},
   review_number:{ type:Number , default: 0},
-  language: String,
+  language: [String],
   creater: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

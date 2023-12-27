@@ -1,5 +1,7 @@
 import CourseData from "../Models/CourseData.js";
 import CourseDetail from '../Models/CourseDetail.js'
+import Tags from "../Models/Tags.js";
+import Users from "../Models/Users.js";
 import { createError } from "../error.js";
 
 export const create = async (req, res , next)=>{
@@ -16,9 +18,13 @@ export const create = async (req, res , next)=>{
 
 }
 export const getCourseWithData = async (req, res , next)=>{
-    const id =req.params.id;
-    const data = await CourseDetail.findById(id).populate('data');
-    res.json(data)
+    try {
+        const id =req.params.id;
+        const data = await CourseDetail.findById(id).populate('data');
+        res.status(200).json(data)
+    } catch (error) {
+        res.status(404).json(404,"not found")
+    }
 
 }
 
@@ -28,5 +34,34 @@ export const getCourse = async (req, res , next)=>{
     res.json(data)
 
 }
+
+export const getTags = async (req, res , next)=>{
+    try {
+        const data = await Tags.find().sort({ number: -1 }) // Sorting in descending order based on the 'number' field
+        .limit(10);
+        res.json(data)
+    } catch (error) {
+        res.status(500)
+    }
+}
+
+
+
+export const getSubscribedCourses = async (req, res , next)=>{
+    try {
+        if(!req.user)
+        {
+            res.status(401).json(401, "Not authenticated");
+            next();
+        }
+        const user = await Users.findById(req.user?.id).populate("subscribedCourses")
+        res.status(200).json(200,user.subscribedCourses)
+    } catch (error) {
+        res.status(500)
+    }
+}
+
+
+
 
 

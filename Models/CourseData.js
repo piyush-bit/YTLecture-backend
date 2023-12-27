@@ -10,7 +10,8 @@ const courseDataSchema = new mongoose.Schema({
                     title : String,
                     description : String,
                     embedLink : String,
-                    duration : String
+                    duration : String ,
+                    img : String
                 }
             ]
         }
