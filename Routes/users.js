@@ -1,6 +1,7 @@
 import  express  from "express";
 import { verifyToken } from "../verifyTocken.js";
 import { deleteUser, subscribe, unsubscribe, update, user } from "../Controllers/user.js";
+import { getSubscribedCourses } from "../Controllers/Course.js";
 const router = express.Router();
 
 
@@ -13,9 +14,11 @@ router.put("/:id", verifyToken, update);
 router.delete("/:id", verifyToken, deleteUser);
 
 //subscribe a user
-router.put("/sub/:id", verifyToken, subscribe);
+router.put("/course/sub", verifyToken, subscribe);
 
 //unsubscribe a user
-router.put("/unsub/:id", verifyToken, unsubscribe);
+router.put("/course/unsub", verifyToken, unsubscribe);
+
+router.get('/course/subscribedCourses',verifyToken,getSubscribedCourses)
 
 export default router;
