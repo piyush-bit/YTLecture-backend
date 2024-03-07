@@ -5,7 +5,7 @@ const dbConnect = () => {
     // console.log(process.env.DB);
     
 
-    mongoose.connect(process.env.DB||'mongodb+srv://user:pass@cluster0.jzsdark.mongodb.net/',connectionParams)
+    mongoose.connect(process.env.DB||'mongodb+srv://bwd:kkp@cluster0.jzsdark.mongodb.net/',connectionParams)
     mongoose.connection.on("connected",()=>{
         console.log("Connected on database sucessfully")
     })
