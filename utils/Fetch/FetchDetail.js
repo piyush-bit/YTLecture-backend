@@ -1,6 +1,6 @@
 import axios from "axios";
 import fs from "fs";
-import puppeteer from "puppeteer";
+// import puppeteer from "puppeteer";
 import dataProcessor from "./Arrange.js";
 import subCatogrise from "./datapgpt.js";
 
@@ -153,34 +153,34 @@ class YouTubePlaylistFetcher {
     return { fullData, thirdData };
   }
 }
-async function scrapeWebsite(playlistId) {
-  // Launch a headless browser
-  const browser = await puppeteer.launch();
+// async function scrapeWebsite(playlistId) {
+//   // Launch a headless browser
+//   const browser = await puppeteer.launch();
 
-  // Open a new page
-  const page = await browser.newPage();
+//   // Open a new page
+//   const page = await browser.newPage();
 
-  // Navigate to the website
-  await page.goto(`https://www.youtube.com/playlist?list=${playlistId}`);
+//   // Navigate to the website
+//   await page.goto(`https://www.youtube.com/playlist?list=${playlistId}`);
 
-  // Wait for the element to be available in the DOM
-  await page.waitForSelector(
-    "#page-manager > ytd-browse > ytd-playlist-header-renderer > div > div.immersive-header-content.style-scope.ytd-playlist-header-renderer > div.thumbnail-and-metadata-wrapper.style-scope.ytd-playlist-header-renderer > div > div.metadata-action-bar.style-scope.ytd-playlist-header-renderer > div.metadata-text-wrapper.style-scope.ytd-playlist-header-renderer > ytd-playlist-byline-renderer > div > yt-formatted-string:nth-child(4)"
-  );
+//   // Wait for the element to be available in the DOM
+//   await page.waitForSelector(
+//     "#page-manager > ytd-browse > ytd-playlist-header-renderer > div > div.immersive-header-content.style-scope.ytd-playlist-header-renderer > div.thumbnail-and-metadata-wrapper.style-scope.ytd-playlist-header-renderer > div > div.metadata-action-bar.style-scope.ytd-playlist-header-renderer > div.metadata-text-wrapper.style-scope.ytd-playlist-header-renderer > ytd-playlist-byline-renderer > div > yt-formatted-string:nth-child(4)"
+//   );
 
-  // Extract the text content of the selected element
-  const elementText = await page.$eval(
-    "#page-manager > ytd-browse > ytd-playlist-header-renderer > div > div.immersive-header-content.style-scope.ytd-playlist-header-renderer > div.thumbnail-and-metadata-wrapper.style-scope.ytd-playlist-header-renderer > div > div.metadata-action-bar.style-scope.ytd-playlist-header-renderer > div.metadata-text-wrapper.style-scope.ytd-playlist-header-renderer > ytd-playlist-byline-renderer > div > yt-formatted-string:nth-child(4)",
-    (element) => element.textContent
-  );
+//   // Extract the text content of the selected element
+//   const elementText = await page.$eval(
+//     "#page-manager > ytd-browse > ytd-playlist-header-renderer > div > div.immersive-header-content.style-scope.ytd-playlist-header-renderer > div.thumbnail-and-metadata-wrapper.style-scope.ytd-playlist-header-renderer > div > div.metadata-action-bar.style-scope.ytd-playlist-header-renderer > div.metadata-text-wrapper.style-scope.ytd-playlist-header-renderer > ytd-playlist-byline-renderer > div > yt-formatted-string:nth-child(4)",
+//     (element) => element.textContent
+//   );
 
-  // Print the text content
-  console.log(elementText);
+//   // Print the text content
+//   console.log(elementText);
 
-  // Close the browser
-  await browser.close();
-  return elementText;
-}
+//   // Close the browser
+//   await browser.close();
+//   return elementText;
+// }
 
 async function generate(playlistId) {
   const apiKey = "AIzaSyCn2UfhhnTJbBRcACQ0g6bh1hpZfmRgqhM";
