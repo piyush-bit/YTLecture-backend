@@ -24,7 +24,7 @@ export const signup = async (req, res, next) => {
       next();
       return
     }
-    const newUser = new User({ ...req.body, password: hash , username : extractUsername(req.body.email) });
+    const newUser = new User({ name:req.body.name,email:req.body.email, password: hash , username : extractUsername(req.body.email) });
 
     await newUser.save();
     res.status(201).send("User has been created!");
