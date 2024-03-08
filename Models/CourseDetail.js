@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const courseDetailSchema = new mongoose.Schema({
-  playlistId: { type: String, required: true },
+  playlistId: { type: String, required: true ,unique: true},
   playlistLink: { type: String },
   playlist_img: { type: String, required: true },
   views: { type: String },

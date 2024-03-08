@@ -3,16 +3,31 @@ import User from "../Models/Users.js";
 import bcrypt from "bcryptjs";
 import { createError } from "../error.js";
 import jwt from "jsonwebtoken";
+import validateEmail, { extractUsername } from "../utils/Email.js";
 
 export const signup = async (req, res, next) => {
   console.log("inside signup");
   try {
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(req.body.password, salt);
-    const newUser = new User({ ...req.body, password: hash });
+
+    if(!validateEmail(req.body.email)){
+      res.status(400).send("Invallid Email")
+      next();
+      return
+    }
+
+    const u = await User.findOne({email: req.body.email})
+    console.log(u);
+    if(u.length!=0){
+      res.status(409).send("User already exists")
+      next();
+      return
+    }
+    const newUser = new User({ name:req.body.name,email:req.body.email, password: hash , username : extractUsername(req.body.email) });
 
     await newUser.save();
-    res.status(200).send("User has been created!");
+    res.status(201).send("User has been created!");
   } catch (err) {
     next(err);
   }
@@ -55,7 +70,8 @@ export const signout = async (req, res, next) => {
   try {
     res.clearCookie("access_token", {
       httpOnly: true,
-      domain: process.env.CORS_ADD
+      // domain: process.env.CORS_ADD
+      domain: 'localhost'
     });
     res
       .status(200).json({message : "done"});
