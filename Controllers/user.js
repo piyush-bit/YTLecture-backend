@@ -1,12 +1,12 @@
 import Users from "../Models/Users.js"
 import { createError } from "../error.js";
 
-
+//return user data 
 export const user = (req, res , next)=>{
   res.json(req.user);
   next();
 }
-
+//update
 export const update = async (req, res , next) => {
     if (req.params.id === req.user.id){
         try {
@@ -27,7 +27,7 @@ export const update = async (req, res , next) => {
 };
 
 
-
+// delete the user 
 export const deleteUser = async (req, res, next) => {
     if (req.params.id === req.user.id) {
         try {
@@ -41,6 +41,7 @@ export const deleteUser = async (req, res, next) => {
     }
 };
 
+//get user info 
 export const getUser = async (req, res, next) => {
     try {
       const user = await Users.findById(req.params.id);
@@ -50,7 +51,7 @@ export const getUser = async (req, res, next) => {
     }
   };
 
-
+//subscribe to a course 
   export const subscribe = async (req, res, next) => {
     try {
       await Users.findByIdAndUpdate(req.user.id, {
@@ -62,7 +63,7 @@ export const getUser = async (req, res, next) => {
     }
   };
 
-
+//unsubscribe 
   export const unsubscribe = async (req, res, next) => {
     try {
       try {

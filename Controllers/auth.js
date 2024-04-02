@@ -5,6 +5,8 @@ import { createError } from "../error.js";
 import jwt from "jsonwebtoken";
 import validateEmail, { extractUsername } from "../utils/Email.js";
 
+
+//signup 
 export const signup = async (req, res, next) => {
   console.log("inside signup");
   try {
@@ -33,6 +35,7 @@ export const signup = async (req, res, next) => {
   }
 };
 
+//signin
 export const signin = async (req, res, next) => {
   try {
     const user = await User.findOne({ email: req.body.email });
@@ -66,6 +69,7 @@ export const signin = async (req, res, next) => {
   }
 };
 
+//signout
 export const signout = async (req, res, next) => {
   try {
     res.clearCookie("access_token", {

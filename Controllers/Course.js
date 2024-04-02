@@ -4,6 +4,7 @@ import Tags from "../Models/Tags.js";
 import Users from "../Models/Users.js";
 import { createError } from "../error.js";
 
+//create courses using json data 
 export const create = async (req, res , next)=>{
     const {data , ...details }=req.body;
     const creater = req.user || '6536ad741a3cb9f856657ca7';
@@ -17,6 +18,8 @@ export const create = async (req, res , next)=>{
     res.send("ok")
 
 }
+
+//get course details along with data 
 export const getCourseWithData = async (req, res , next)=>{
     try {
         const id =req.params.id;
@@ -28,6 +31,7 @@ export const getCourseWithData = async (req, res , next)=>{
 
 }
 
+// get only course detail
 export const getCourse = async (req, res , next)=>{
     const id =req.params.id;
     const data = await CourseDetail.findById(id);
@@ -35,6 +39,8 @@ export const getCourse = async (req, res , next)=>{
 
 }
 
+
+// get tags detail 
 export const getTags = async (req, res , next)=>{
     try {
         const data = await Tags.find().sort({ number: -1 }) // Sorting in descending order based on the 'number' field
@@ -46,7 +52,7 @@ export const getTags = async (req, res , next)=>{
 }
 
 
-
+// get all the course that are subscribed 
 export const getSubscribedCourses = async (req, res , next)=>{
     try {
         if(!req.user)

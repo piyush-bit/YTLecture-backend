@@ -11,15 +11,17 @@ const courseDetailSchema = new mongoose.Schema({
   title: { type: String },
   tags: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Tag",
+    ref: "tag",
   }],
-  language : { type : String , required : true},
   review: { type:Number , default: 5},
   review_number:{ type:Number , default: 0},
-  language: [String],
+  language: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "language",
+  }],
   creater: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "user",
     required: true,
   },
   duration: { type: String, required: true },
