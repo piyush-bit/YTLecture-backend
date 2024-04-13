@@ -2,7 +2,7 @@
 
 // async function subCatogrise(data) {
 //   const openai = new OpenAI({
-//     apiKey: "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",
+//     apiKey: "",
 //   });
 
 //   const response = await openai.chat.completions.create({
