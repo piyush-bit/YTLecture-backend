@@ -34,7 +34,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 const subCatogrise = async (data) => {
   const genAI = new GoogleGenerativeAI(
-    "AIzaSyB7WFOgjT5QcTyiuIUtxT0AMukBwvOM_Eg"
+    process.env.OPENAI_API
   );
   // For text-only input, use the gemini-pro model
   const model = genAI.getGenerativeModel({ model: "gemini-pro" });

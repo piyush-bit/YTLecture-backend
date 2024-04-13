@@ -2,7 +2,7 @@ import express from "express";
 const router = express.Router();
 import CourseDetail from "../Models/CourseDetail.js";
 import { get } from "mongoose";
-import { getTags } from "../Controllers/Course.js";
+import { getCoursesWithTags, getTags, searchCourses } from "../Controllers/Course.js";
 router.get('/',async(req,res)=>{
 
   req.query.tags
@@ -10,6 +10,8 @@ router.get('/',async(req,res)=>{
     res.json(result)
   })
   router.get('/id',getTags)
+  // router.get('/',getCoursesWithTags)
+  router.get('/search',searchCourses)
 
 
 export default router ;

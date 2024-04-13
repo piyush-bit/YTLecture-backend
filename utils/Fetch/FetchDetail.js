@@ -199,15 +199,14 @@ async function generate(playlistId) {
 }
 
 export const  generateSimple= async (playlistId) => {
-  const apiKey = "AIzaSyCn2UfhhnTJbBRcACQ0g6bh1hpZfmRgqhM";
-
+  const apiKey=process.env.GOOGLE_API
   const playlistFetcher = new YouTubePlaylistFetcher(apiKey);
   const value = await playlistFetcher.fetchPlaylistData(
     playlistId
   );
   // const [fullData, thirdData] = value
   // const chatgpt= await subCatogrise(JSON.stringify(value.thirdData))
-  const order = [{"subtopic": "React Query Basics",
+  const order = [{"subtopic": value.fullData.title,
   "data":value.thirdData}]
   
   const result = dataProcessor(value.fullData, order);
