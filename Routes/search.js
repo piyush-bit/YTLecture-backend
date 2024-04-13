@@ -1,5 +1,5 @@
 import express from "express";
-import { addTag, createTag, languageSearch, removeTag, tagSearch } from "../Controllers/Search.js";
+import { addTag, createTag, languageSearch, removeTag, tagSearch } from "../Controllers/search.js";
 
 const router = express.Router();
 router.get('/tag',tagSearch)
