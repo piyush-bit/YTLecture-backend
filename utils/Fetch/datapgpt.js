@@ -45,19 +45,25 @@ const subCatogrise = async (data) => {
   const chat = model.startChat({
     history: [],
     generationConfig: {
-      maxOutputTokens: 10000,
+      maxOutputTokens: 90000,
     },
   });
 
   const result = await chat.sendMessage(prompt);
+  console.log("Recieved")
   const response = await result.response;
   const text = response.text();
+  console.log("*****************************************")
+  console.log(text);
+  console.log("*****************************************")
+
   console.log(text.slice(text.indexOf("["), text.lastIndexOf("]") + 1));
+  console.log("Done");
 
   const jsonContent = JSON.parse(
     text.slice(text.indexOf("["), text.lastIndexOf("]") + 1)
   );
-
+  console.log(jsonContent);
   return jsonContent;
 };
 

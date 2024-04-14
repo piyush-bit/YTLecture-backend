@@ -4,8 +4,12 @@ import generate, { generateSimple } from "../utils/Fetch/FetchDetail.js";
 export const generatePlaylist = async (req, res , next)=>{
     try {
         console.log(req.body.id);
-        const result = await generate(req.body.id)
-        res.status(200).json(result);
+        try {
+          const result = await generate(req.body.id)
+          res.status(200).json(result);
+        } catch (error) {
+          res.status(500).json(error);
+        }
     next();
     } catch (error) {
         res.status(501)
