@@ -99,15 +99,16 @@ export const getCoursesWithTags = async (req, res, next) => {
         }
 
         // Find the tag by its ID and populate the courses field
-        const tag = await TagModel.findById(tagId).populate('courses').exec();
+        const tag = await Tags.findById(tagId).populate('courses').exec();
 
         // Check if the tag exists
         if (!tag) {
             return res.status(404).json({ error: 'Tag not found' });
         }
 
-        return res.status(200).json({ courses: tag.courses });
+        return res.status(200).json( tag.courses );
     } catch (error) {
+        console.log(error);
         return res.status(500).json({ error: `Internal server error ${error}` });
     }
        
