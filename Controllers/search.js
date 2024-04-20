@@ -27,6 +27,29 @@ export const createTag = async (req, res , next)=>{
     }
 }
 
+export const createLanguage = async (req, res , next)=>{
+    
+    try {
+        const { name } = req.body;
+
+        // Check if name is provided
+        if (!name) {
+            return res.status(400).json({ error: 'Name is required' });
+        }
+
+        // Create a new tag instance
+        const newLanguage = new Language({ title: name });
+
+        // Save the new tag to the database
+        const createdLanguage = await newLanguage.save();
+
+        return res.status(201).json({ message: 'Tag created successfully', tag: createLanguage });
+    } catch (error) {
+        return res.status(500).json({ error: `Internal server error ${error}` });
+    }
+}
+
+
 export const tagSearch = async (req, res , next)=>{
     try {
         const search = req.query.s;
@@ -98,11 +121,6 @@ export const addTag = async (req, res, next) => {
         else
         tag.courses.push(courseId);
 
-        // // Add the tag to the course's tags array
-        // course.tags.push(tagId);
-        // tag.courses.push(courseId);
-
-
         // Save the updated course
         await course.save();
         await tag.save();
@@ -112,6 +130,61 @@ export const addTag = async (req, res, next) => {
         return res.status(500).json({ error: `Internal server error ${error}` });
     }
 };
+
+export const addLanguage = async (req, res, next) => {
+    try {
+        const { courseId, languageId } = req.body;
+        if(!courseId||!languageId){
+            return res.status(400).json({ error: 'Both courseId and languageId are required' });
+        }
+
+
+        // Find the course detail by its ID
+        const course = await CourseDetail.findById(courseId);
+
+        // Check if the course exists
+        if (!course) {
+            return res.status(404).json({ error: 'Course not found' });
+        }
+
+        // Check if the tag exists
+        const language = await Language.findById(tagId);
+        if (!language) {
+            return res.status(404).json({ error: 'Language not found' });
+        }
+        
+        //check if the language is already added to the course
+        if (course.language ) {
+            //search for the language that exists in the course and remove the course from the list
+            const preLanguage = await Language.findById(course.language);
+            if(preLanguage){const index = preLanguage.courses.indexOf(courseId);
+            if (index > -1) {
+                preLanguage.courses.splice(index, 1);
+                await preLanguage.save();
+            }}
+
+            course.language = languageId;
+            if(language.courses){
+                language.courses.push(courseId)
+            }
+            else
+            language.courses=[courseId]
+        }
+        else{
+            course.language = languageId;
+            if(language.courses){
+                language.courses.push(courseId)
+            }
+            else
+            language.courses=[courseId]
+        }
+        // Save the updated course
+        await course.save();
+        await language.save();
+    } catch (error) {
+        return res.status(500).json({ error: `Internal server error ${error}` });   
+    }
+}
 
 export const removeTag = async (req, res, next) => {
     try {
@@ -137,8 +210,11 @@ export const removeTag = async (req, res, next) => {
         if (index === -1) {
             return res.status(404).json({ error: 'Tag not found in the course' });
         }
+        await course.save();
 
+        
         const index2= tag.courses.indexOf(courseId);
+
 
         if (index2 === -1) {
             return res.status(404).json({ error: 'course not found in the Tag' });
@@ -149,7 +225,7 @@ export const removeTag = async (req, res, next) => {
         tag.courses.splice(index2, 1);
 
         // Save the updated course
-        await course.save();
+        
         await tag.save();
 
         return res.status(200).json({ message: 'Tag removed successfully', course });
