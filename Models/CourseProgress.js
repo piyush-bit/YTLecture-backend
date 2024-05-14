@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const ProgressSchema = new mongoose.Schema({
     user: {
@@ -11,13 +11,12 @@ const ProgressSchema = new mongoose.Schema({
         ref: "course_detail", // Reference to the Course model
         required: true,
     },
-    completedLectures: [
-        {
-            type: String,
-        },
-    ],
+    //type object
+    completedLectures: {
+        type: Map, // Using Map to store key-value pairs
+        of: Boolean, // Each value in the map is a boolean
+        default: {}, // Default value is an empty object
+    },
 });
+export default mongoose.model("Progress", ProgressSchema);
 
-const Progress = mongoose.model("Progress", ProgressSchema);
-
-module.exports = Progress;

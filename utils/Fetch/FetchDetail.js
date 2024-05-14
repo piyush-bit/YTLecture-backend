@@ -28,6 +28,7 @@ class YouTubePlaylistFetcher {
       console.error(
         `An error occurred while fetching playlist details: ${error.message}`
       );
+      throw new Error("An error occurred while fetching playlist details",error);
       return {
         title: null,
         description: null,
@@ -191,15 +192,12 @@ async function generate(playlistId) {
   );
   // const [fullData, thirdData] = value
   const chatgpt= await subCatogrise(JSON.stringify(value.thirdData))
-  
-  try {
+
     const result = dataProcessor(value.fullData, chatgpt);
     console.log("**************************************************************************************");
     console.log(result)
     return result
-  } catch (error) {
-    return error
-  }
+ 
 }
 
 export const  generateSimple= async (playlistId) => {

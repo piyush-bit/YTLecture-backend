@@ -41,8 +41,7 @@ function dataProcessor(content,structureData) {
       throw new Error("AI generation failed try again");
     }
   });
-    totalDuration += subtopicDuration;
-
+    totalDuration += subtopicDuration;  
     return {
       subtopic: topic.subtopic,
       duration: formatDuration(subtopicDuration),

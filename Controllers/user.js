@@ -1,3 +1,4 @@
+import CourseProgress from "../Models/CourseProgress.js";
 import Users from "../Models/Users.js"
 import { createError } from "../error.js";
 
@@ -57,6 +58,14 @@ export const getUser = async (req, res, next) => {
       await Users.findByIdAndUpdate(req.user.id, {
         $push: { subscribedCourses: req.body.id },
       });
+      // new CourseProgress
+      const progress = new CourseProgress({
+        user: req.user.id,
+        course: req.body.id,
+        completedLectures: {},
+      });
+      await progress.save()
+
       res.status(200).json("Subscription successfull.")
     } catch (err) {
       next(err);
@@ -70,6 +79,7 @@ export const getUser = async (req, res, next) => {
         await Users.findByIdAndUpdate(req.user.id, {
           $pull: { subscribedCourses: req.body.id },
         });
+        await CourseProgress.deleteMany({ user: req.user.id, course: req.body.id });
         res.status(200).json("Unsubscription successfull.")
       } catch (err) {
         next(err);
@@ -78,3 +88,16 @@ export const getUser = async (req, res, next) => {
       next(err);
     }
   };
+
+
+export const  checkSubscription = async (req, res, next) => {
+  const {courseId} = req.query;
+  if(!courseId) return res.status(400).json({message: "courseId not found"})
+    try {
+        const user = await Users.findById(req.user.id)
+        const subscribed = user.subscribedCourses.includes(courseId)
+        res.status(200).json({subscribed: subscribed})
+    } catch (error) {
+        res.status(500)
+    }
+}

@@ -94,7 +94,8 @@ export const getCoursesWithTags = async (req, res, next) => {
 
         // Check if tagId is provided
         if (!tagId) {
-            const result = await CourseDetail.find({})
+            //populate tags and language 
+            const result = await CourseDetail.find({}).populate("language").populate("tags")
             return res.json(result)
         }
 

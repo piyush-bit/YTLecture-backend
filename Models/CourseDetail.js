@@ -15,10 +15,10 @@ const courseDetailSchema = new mongoose.Schema({
   }],
   review: { type:Number , default: 5},
   review_number:{ type:Number , default: 0},
-  language: [{
+  language: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "language",
-  }],
+  },
   creater: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",

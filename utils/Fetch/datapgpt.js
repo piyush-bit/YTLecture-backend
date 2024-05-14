@@ -45,7 +45,7 @@ const subCatogrise = async (data) => {
   const chat = model.startChat({
     history: [],
     generationConfig: {
-      maxOutputTokens: 90000,
+      maxOutputTokens: 70000,
     },
   });
 
@@ -57,13 +57,13 @@ const subCatogrise = async (data) => {
   console.log(text);
   console.log("*****************************************")
 
-  console.log(text.slice(text.indexOf("["), text.lastIndexOf("]") + 1));
-  console.log("Done");
+  // console.log(text.slice(text.indexOf("["), text.lastIndexOf("]") + 1));
+  console.log("Fetching Done");
 
   const jsonContent = JSON.parse(
     text.slice(text.indexOf("["), text.lastIndexOf("]") + 1)
   );
-  console.log(jsonContent);
+  console.log("successfully fetched data",jsonContent);
   return jsonContent;
 };
 

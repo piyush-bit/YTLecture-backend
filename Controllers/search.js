@@ -212,7 +212,7 @@ export const removeTag = async (req, res, next) => {
         }
         await course.save();
 
-        
+        course.tags.splice(index, 1);
         const index2= tag.courses.indexOf(courseId);
 
 
@@ -221,7 +221,7 @@ export const removeTag = async (req, res, next) => {
         }
 
         // Remove the tag from the course's tags array
-        course.tags.splice(index, 1);
+        
         tag.courses.splice(index2, 1);
 
         // Save the updated course

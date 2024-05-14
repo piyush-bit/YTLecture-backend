@@ -12,7 +12,7 @@ export const generatePlaylist = async (req, res , next)=>{
         }
     next();
     } catch (error) {
-        res.status(501)
+        res.status(501).json(error);
     }
     
   }

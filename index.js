@@ -11,6 +11,7 @@ import createCourseRoute from './Routes/createCourse.js'
 import userRoute from './Routes/users.js'
 import generateRoute from './Routes/generate.js'
 import searchRoute from './Routes/search.js'
+import progressRoute from './Routes/progress.js'
 import Tags from './Models/Tags.js';
 
 
@@ -37,8 +38,13 @@ app.use('/api/user',userRoute);
 app.use('/api/generate',generateRoute);
 app.use('/api/createcourse',createCourseRoute)
 app.use('/api/search',searchRoute)
+app.use('/api/progress',progressRoute)
 app.get('/',(req,res)=>{
     res.send('<h1>Hi there<h1/>')
+})
+//health check route
+app.get('/health', (req, res) => {
+    res.send('OK');
 })
 app.get('/tag',async (req,res)=>{
     const t =  await Tags.find({});
