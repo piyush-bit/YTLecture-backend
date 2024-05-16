@@ -25,7 +25,7 @@ export const checkLecture = async (req, res, next) => {
         // Save the updated progress
         await progress.save();
 
-        res.status(200).json({ success: true, message: "Progress updated successfully" });
+        res.status(200).json({ success: true, message: "Progress updated successfully"  , data : progress.completedLectures});
     } catch (err) {
         console.error(err);
         res.status(500).json({ success: false, message: "Failed to update progress" });
@@ -34,7 +34,8 @@ export const checkLecture = async (req, res, next) => {
 
 export const unCheckLecture = async (req, res, next) => {
 
-    const { courseId, userId, lectureId } = req.body;
+    const { courseId, lectureId } = req.body;
+    const userId = req.user.id;
     try {
         // Find the Progress document for the given user and course
         let progress = await CourseProgress.findOne({ user: userId, course: courseId });
@@ -49,7 +50,7 @@ export const unCheckLecture = async (req, res, next) => {
             // If lecture is completed, uncheck it
             progress.completedLectures.delete(lectureId);
             await progress.save();
-            return res.status(200).json({ success: true, message: "Lecture unchecked successfully" });
+            return res.status(200).json({ success: true, message: "Lecture unchecked successfully" , data : progress.completedLectures});
         } else {
             // If lecture is not completed, return a message indicating it's not checked
             return res.status(400).json({ success: false, message: "Lecture is not checked" });
@@ -61,7 +62,9 @@ export const unCheckLecture = async (req, res, next) => {
 }
 
 export const getProgressForCoursesAndUser = async (req, res, next) => {
-    const { userId , courseId } = req.params;
+    const  { courseId } = req.query;
+    const userId = req.user.id;
+
     try {
         const progress = await CourseProgress.findOne({user : userId , course : courseId});
         if(!progress){
