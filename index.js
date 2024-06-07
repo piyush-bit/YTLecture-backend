@@ -36,7 +36,7 @@ app.use('/api/explore',exploreRoutes);
 app.use('/api/course',courseRoute);
 app.use('/api/user',userRoute);
 app.use('/api/generate',generateRoute);
-app.use('/api/createcourse',createCourseRoute)
+app.use('/api/createcourse',createCourseRoute )
 app.use('/api/search',searchRoute)
 app.use('/api/progress',progressRoute)
 app.get('/',(req,res)=>{
