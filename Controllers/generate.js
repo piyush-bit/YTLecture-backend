@@ -8,11 +8,13 @@ export const generatePlaylist = async (req, res , next)=>{
           const result = await generate(req.body.id)
           res.status(200).json(result);
         } catch (error) {
-          res.status(500).json(error);
+          res.status(500).json({message : error.message});
+          console.log(error.message);
         }
     next();
     } catch (error) {
         res.status(501).json(error);
+        console.log(error);
     }
     
   }
@@ -24,7 +26,7 @@ export const generatePlaylist = async (req, res , next)=>{
         res.status(200).json(result);
     next();
     } catch (error) {
-        res.status(501)
+        res.status(501).json({message : error.message})
     }
     
   }

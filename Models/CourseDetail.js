@@ -24,6 +24,7 @@ const courseDetailSchema = new mongoose.Schema({
     ref: "user",
     required: true,
   },
+  Public: { type: Boolean, default: false },
   duration: { type: String, required: true },
   description: String,
   enrollmentCount: { type: Number, default: 0 },
