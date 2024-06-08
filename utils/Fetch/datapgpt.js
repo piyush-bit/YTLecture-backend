@@ -45,7 +45,7 @@ const subCatogrise = async (data) => {
   const chat = model.startChat({
     history: [],
     generationConfig: {
-      maxOutputTokens: 70000,
+      maxOutputTokens: 8192 ,
     },
   });
 
