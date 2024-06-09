@@ -148,7 +148,7 @@ export const addLanguage = async (req, res, next) => {
         }
 
         // Check if the tag exists
-        const language = await Language.findById(tagId);
+        const language = await Language.findById(languageId);
         if (!language) {
             return res.status(404).json({ error: 'Language not found' });
         }
@@ -181,6 +181,8 @@ export const addLanguage = async (req, res, next) => {
         // Save the updated course
         await course.save();
         await language.save();
+
+        res.status(200).json({ message: 'Language added successfully' });
     } catch (error) {
         return res.status(500).json({ error: `Internal server error ${error}` });   
     }

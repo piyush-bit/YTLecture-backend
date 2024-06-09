@@ -37,9 +37,9 @@ const subCatogrise = async (data) => {
     process.env.OPENAI_API
   );
   // For text-only input, use the gemini-pro model
-  const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-  const prompt = `${data} \n divide the following topic in subtopics give data in format (json) \n important : title string in both input and output string should be exactly same \n outputformat \n [ {subtopic : String , data : [ {title : String} ... ]}.... ]`;
+  const prompt = `${data} \n divide the following topic in subtopics give data in format (json) \n important : title string in both input and output string should be exactly same \n outputformat \n [ {subtopic : String , data : [ {title : String} ... ]}.... ] \n only change the sequence of videos if the given sequence is not correct and its absolute necessary to change the sequence of videos `;
   console.log(prompt);
 
   const chat = model.startChat({

@@ -1,20 +1,42 @@
+import mongoose from "mongoose";
 import CourseData from "../Models/CourseData.js";
 import CourseDetail from '../Models/CourseDetail.js'
+import Language from "../Models/Language.js";
 import Tags from "../Models/Tags.js";
 import Users from "../Models/Users.js";
 import { createError } from "../error.js";
 
 //create courses using json data 
-export const create = async (req, res , next)=>{
-    const {data , ...details }=req.body;
+export const create = async (req, res, next) => {
+    const { data, ...details } = req.body;
     const creater = req.user || '6536ad741a3cb9f856657ca7';
-    const {_id}  = await CourseData.create({ data});
-    const {b} = await CourseDetail.create({...details ,creater , data : _id});
-    
 
-    console.log(b);
-    res.send("ok")
+    // Start a session and transaction
+    const session = await mongoose.startSession();
+    session.startTransaction();
 
+    try {
+        // Create CourseData entry within the session
+        const courseData = await CourseData.create([{ data }], { session });
+        const { _id } = courseData[0];
+
+        // Create CourseDetail entry within the session
+        const courseDetail = await CourseDetail.create([{ ...details, creater, data: _id }], { session });
+
+        // Commit the transaction if both operations succeed
+        await session.commitTransaction();
+        session.endSession();
+
+        console.log(courseDetail);
+        res.status(200).json(courseDetail);
+    } catch (error) {
+        // Abort the transaction in case of an error
+        await session.abortTransaction();
+        session.endSession();
+
+        // Pass the error to the next middleware
+        next(error);
+    }
 }
 
 //get course details along with data 
@@ -41,14 +63,22 @@ export const getCourse = async (req, res , next)=>{
 // get tags detail 
 export const getTags = async (req, res , next)=>{
     try {
-        const data = await Tags.find().sort({ number: -1 }) // Sorting in descending order based on the 'number' field
-        .limit(10);
+        const data = await Tags.find()
         res.json(data)
     } catch (error) {
         res.status(500)
     }
 }
 
+// get tags detail 
+export const getLanguages = async (req, res , next)=>{
+    try {
+        const data = await Language.find()
+        res.json(data)
+    } catch (error) {
+        res.status(500)
+    }
+}
 
 // get all the course that are subscribed 
 export const getSubscribedCourses = async (req, res , next)=>{
@@ -114,6 +144,28 @@ export const getCoursesWithTags = async (req, res, next) => {
     }
        
 };
+
+export const getCoursewithPlaylistId = async (req, res, next) => {
+
+    try {
+        const { playlistId } = req.query;
+        console.log(playlistId);
+        // Check if playlistId is provided
+        if (!playlistId) {
+            return res.status(400).json({ error: 'Playlist ID is required' });
+        }
+
+        // Find the course by its playlist ID
+        const course = await CourseDetail.findOne({ playlistId : playlistId });
+        if (!course) {
+            return res.status(404).json({ error: 'Course not found' });
+        }
+
+        return res.status(200).json({ course });
+    } catch (error) {
+        return res.status(500).json({ error: `Internal server error ${error}` });
+    }
+}
 
 export const searchCourses = async (req, res, next) => {
 
