@@ -43,7 +43,7 @@ export const create = async (req, res, next) => {
 export const getCourseWithData = async (req, res , next)=>{
     try {
         const id =req.params.id;
-        const data = await CourseDetail.findById(id).populate('data').populate('tags');
+        const data = await CourseDetail.findById(id).populate('data').populate('tags').populate('language');
         res.status(200).json(data)
     } catch (error) {
         res.status(404).json("not found")

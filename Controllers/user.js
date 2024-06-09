@@ -66,6 +66,11 @@ export const getUser = async (req, res, next) => {
       });
       await progress.save()
 
+      //increment enrollmentCount in Course Details
+      const course = await CourseDetail.findById(req.body.id);
+      course.enrollmentCount++;
+      await course.save();
+
       res.status(200).json("Subscription successfull.")
     } catch (err) {
       next(err);
