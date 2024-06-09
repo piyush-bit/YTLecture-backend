@@ -77,7 +77,7 @@ export const signout = async (req, res, next) => {
     res.clearCookie("access_token", {
       httpOnly: true,
       // domain: process.env.CORS_ADD
-      domain: 'localhost , netlify.app',
+      domain: process.env.DOMAIN,
     });
     res
       .status(200).json({message : "done"});
