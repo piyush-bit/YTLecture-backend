@@ -1,6 +1,5 @@
 import express from "express";
 const router = express.Router();
-import CourseData from "../Models/CourseData.js";
 import { getCourseWithData, getCoursesWithTags, getCoursewithPlaylistId, getSubscribedCourses, searchCourses } from "../Controllers/Course.js";
 import { verifyToken } from "../verifyTocken.js";
 

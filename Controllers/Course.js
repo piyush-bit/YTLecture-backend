@@ -9,7 +9,7 @@ import { createError } from "../error.js";
 //create courses using json data 
 export const create = async (req, res, next) => {
     const { data, ...details } = req.body;
-    const creater = req.user || '6536ad741a3cb9f856657ca7';
+    const creater = req.user?._id || '6536ad741a3cb9f856657ca7';
 
     // Start a session and transaction
     const session = await mongoose.startSession();
@@ -22,6 +22,9 @@ export const create = async (req, res, next) => {
 
         // Create CourseDetail entry within the session
         const courseDetail = await CourseDetail.create([{ ...details, creater, data: _id }], { session });
+
+        //update the user with the course detail id
+        await Users.findByIdAndUpdate(creater, { $push: { courses: courseDetail._id } }, { session });
 
         // Commit the transaction if both operations succeed
         await session.commitTransaction();
@@ -90,6 +93,15 @@ export const getSubscribedCourses = async (req, res , next)=>{
         }
         const user = await Users.findById(req.user?.id).populate("subscribedCourses")
         res.status(200).json(200,user.subscribedCourses)
+    } catch (error) {
+        res.status(500)
+    }
+}
+
+export const getCreatedCourses = async (req, res, next)=>{
+    try {
+        const user = await Users.findById(req.user?.id).populate("courses")
+        res.status(200).json(user.courses)
     } catch (error) {
         res.status(500)
     }
