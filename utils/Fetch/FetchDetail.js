@@ -183,21 +183,45 @@ class YouTubePlaylistFetcher {
 //   return elementText;
 // }
 
-async function generate(playlistId) {
+async function generate(playlistId, res) {
   const apiKey = "AIzaSyCn2UfhhnTJbBRcACQ0g6bh1hpZfmRgqhM";
 
   const playlistFetcher = new YouTubePlaylistFetcher(apiKey);
-  const value = await playlistFetcher.fetchPlaylistData(
-    playlistId
-  );
-  // const [fullData, thirdData] = value
-  const chatgpt= await subCatogrise(JSON.stringify(value.thirdData))
+  res.write(JSON.stringify({message:"Generating Playlist" , step:1})+ "\n---END---\n")
+  let value;
+  try{
+    value = await playlistFetcher.fetchPlaylistData(
+      playlistId
+    );
+  }catch(error){
+    res.write(JSON.stringify({message:error.message})+ "\n---END---\n")
+    return
+  }
 
-    const result = dataProcessor(value.fullData, chatgpt);
+
+  res.write(JSON.stringify({message:"Arranging Playlist" , step:2})+ "\n---END---\n")
+
+  let chatgpt;
+  try {
+    // const [fullData, thirdData] = value
+    chatgpt= await subCatogrise(JSON.stringify(value.thirdData))
+  } catch (error) {
+    res.write(JSON.stringify({message:error.message})+ "\n---END---\n")
+    return;
+  }
+
+  res.write(JSON.stringify({message:"Processing Playlist" , step:3})+ "\n---END---\n")
+
+  let result;
+  try {
+    result = dataProcessor(value.fullData, chatgpt);
+  } catch (error) {
+    res.write(JSON.stringify({message:error.message})+ "\n---END---\n")
+    return;
+  }
     console.log("**************************************************************************************");
     console.log(result)
     return result
- 
 }
 
 export const  generateSimple= async (playlistId) => {
