@@ -21,7 +21,7 @@ export const signup = async (req, res, next) => {
 
     const u = await User.findOne({email: req.body.email})
     console.log(u);
-    if(u.length!=0){
+    if(u && u.length!=0){
       res.status(409).send("User already exists")
       next();
       return

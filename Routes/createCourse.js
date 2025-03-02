@@ -1,6 +1,9 @@
 import express from "express";
 const router = express.Router();
 import {create} from '../Controllers/Course.js'
-router.post('/',create)
-
+import { verifyToken } from "../verifyTocken.js"
+import { createLanguage, createTag } from "../Controllers/search.js";
+router.post('/',verifyToken,create)
+router.post('/createtag',createTag)
+router.post('/createlanguage',createLanguage)
 export default router;
